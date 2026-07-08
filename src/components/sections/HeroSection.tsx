@@ -74,16 +74,16 @@ export default function HeroSection() {
             </div>
             <input 
               type="text" 
-              placeholder="Search suppliers by name, city, or region..." 
+              placeholder="Search suppliers by name..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-grow py-3 px-4 outline-none text-forest-950 bg-transparent text-base"
+              className="flex-grow py-3 px-2 sm:px-4 outline-none text-forest-950 bg-transparent text-base min-w-0 w-full"
             />
             <button 
               type="submit"
-              className="bg-forest-950 hover:bg-forest-900 text-white px-6 py-3 rounded-md font-medium whitespace-nowrap transition-colors"
+              className="bg-forest-950 hover:bg-forest-900 text-white px-4 sm:px-6 py-3 rounded-md font-medium whitespace-nowrap transition-colors text-sm sm:text-base flex-shrink-0"
             >
-              Search Suppliers &rarr;
+              Search <span className="hidden sm:inline">Suppliers</span> &rarr;
             </button>
           </form>
         </div>

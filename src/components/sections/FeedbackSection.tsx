@@ -191,26 +191,14 @@ export default function FeedbackSection({ isTeaser = false }: { isTeaser?: boole
         {/* READ TAB */}
         {activeTab === "read" && (
           <div className="space-y-6">
-            
-            {/* AI Insight Box */}
+            {/* Market Summary */}
             <div className="bg-gradient-to-r from-forest-900 to-forest-950 rounded-2xl p-6 shadow-xl border border-forest-800 text-white relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-6 opacity-10">
-                <Sparkles className="w-24 h-24" />
-              </div>
               <div className="flex items-center gap-2 mb-3 text-amber font-bold">
-                <Sparkles className="w-5 h-5" />
-                <span>AI Market Insight</span>
+                <span>Market Summary</span>
               </div>
-              {aiLoading ? (
-                <div className="flex items-center gap-3 text-forest-100">
-                  <div className="w-5 h-5 border-2 border-t-amber rounded-full animate-spin"></div>
-                  Analysing market feedback...
-                </div>
-              ) : (
-                <p className="text-forest-100 leading-relaxed max-w-2xl">
-                  Most reviewers are satisfied with material quality but flag issues with grade labelling on site. Cement suppliers in Greater Accra receive the highest ratings for delivery punctuality.
-                </p>
-              )}
+              <p className="text-forest-100 leading-relaxed max-w-2xl">
+                Most reviewers are satisfied with material quality but flag issues with grade labelling on site. Cement suppliers in Greater Accra receive the highest ratings for delivery punctuality.
+              </p>
             </div>
 
             {/* Reviews List */}
