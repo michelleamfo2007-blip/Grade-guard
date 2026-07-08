@@ -1,0 +1,6 @@
+{
+  "name": "GRADE GUARD",
+  "description": "BuildSure Ghana: A construction compliance platform with grade compliance scanning, verified vendors, and consultation services for safe building practices.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

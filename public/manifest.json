@@ -1,0 +1,22 @@
+{
+  "short_name": "Grade Guard",
+  "name": "Grade Guard Ghana",
+  "description": "Ghana's premier structural compliance platform.",
+  "icons": [
+    {
+      "src": "/images/ghacem_32_1783511754247.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/v_emerald_1783512975414.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0a192f",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#d97706"
+}

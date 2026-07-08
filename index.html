@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GradeGuard — Build with Certainty | Ghana Construction Materials</title>
+    <meta name="description" content="Ghana's #1 construction materials compliance platform. Search 721 certified vendors, verify material grades, and protect your build. Covering all 16 regions of Ghana." />
+    <meta name="keywords" content="GradeGuard, Ghana construction materials, grade compliance, GSA verified vendors, cement grade Ghana, iron rod Ghana, Accra building suppliers" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1C2B1A" />
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="GradeGuard — Build with Certainty" />
+    <meta property="og:description" content="Ghana's #1 construction materials compliance platform. Search 721 certified vendors, verify material grades, and protect your build." />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "GradeGuard",
+      "url": "https://gradeguard.gh",
+      "description": "Ghana's construction materials compliance platform.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All"
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered: ', registration.scope);
+            })
+            .catch(registrationError => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
