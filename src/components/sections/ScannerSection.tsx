@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Scan, AlertTriangle, CheckCircle, Clock, Trash2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Scan, AlertTriangle, CheckCircle, Clock, Trash2, Camera } from "lucide-react";
 import { useScanHistory } from "../../hooks/useScanHistory";
+import { Html5QrcodeScanner } from "html5-qrcode";
 
 type MaterialId = "cem32" | "cem42" | "cem52" | "y10" | "y16" | "blk6" | "blk9";
 type UseId = "foundation" | "column" | "slab" | "loadwall" | "partition" | "plaster" | "mortar";
@@ -85,8 +86,42 @@ export default function ScannerSection() {
   const [selectedMaterial, setSelectedMaterial] = useState<MaterialId | "">("");
   const [selectedUse, setSelectedUse] = useState<UseId | "">("");
   const [result, setResult] = useState<ReturnType<typeof evaluateCompliance> | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
   const [showToast, setShowToast] = useState("");
   const { history, addLog, clearHistory } = useScanHistory();
+
+  useEffect(() => {
+    if (!isScanning) return;
+
+    const scanner = new Html5QrcodeScanner(
+      "reader",
+      { fps: 10, qrbox: { width: 250, height: 250 } },
+      /* verbose= */ false
+    );
+
+    scanner.render(
+      (decodedText) => {
+        // Stop scanning after a successful read
+        const matchedMat = MATERIALS.find(m => m.id === decodedText || m.label.toLowerCase() === decodedText.toLowerCase());
+        if (matchedMat) {
+          setSelectedMaterial(matchedMat.id as MaterialId);
+          setResult(null);
+          setIsScanning(false);
+          triggerToast(`Scanned: ${matchedMat.label}`);
+          scanner.clear().catch(console.error);
+        } else {
+          triggerToast(`Unknown material: ${decodedText.substring(0, 20)}`);
+        }
+      },
+      (error) => {
+        // Ignore read errors
+      }
+    );
+
+    return () => {
+      scanner.clear().catch(console.error);
+    };
+  }, [isScanning]);
 
   const handleCheck = () => {
     if (!selectedMaterial) {
@@ -143,7 +178,21 @@ export default function ScannerSection() {
               </div>
 
               <div className="flex-grow bg-off-white p-5 overflow-y-auto">
-                {!result ? (
+                {isScanning ? (
+                  <div className="h-full flex flex-col justify-center">
+                    <div className="relative w-full bg-black rounded-lg overflow-hidden border border-forest-200 shadow-inner">
+                      <div id="reader" className="w-full"></div>
+                      {/* Animated Scanning Line */}
+                      <div className="absolute top-0 left-0 w-full h-[2px] bg-red-500 shadow-[0_0_8px_2px_rgba(239,68,68,0.8)] animate-scan-line pointer-events-none z-10"></div>
+                    </div>
+                    <button 
+                      onClick={() => setIsScanning(false)}
+                      className="mt-4 w-full py-2 bg-gsa-red/10 text-gsa-red font-medium rounded-lg hover:bg-gsa-red/20 transition-colors"
+                    >
+                      Cancel Scan
+                    </button>
+                  </div>
+                ) : !result ? (
                   <div className="h-full flex flex-col items-center justify-center text-center text-forest-700 opacity-60">
                     <Scan className="w-16 h-16 mb-4 animate-pulse" />
                     <p>Awaiting input...</p>
@@ -197,7 +246,16 @@ export default function ScannerSection() {
               <h3 className="font-display text-2xl text-forest-950 mb-6">Try a compliance check</h3>
               
               <div className="mb-8">
-                <label className="block text-sm font-bold text-forest-900 mb-3 uppercase tracking-wider">1. Select Material Grade</label>
+                <div className="flex items-center justify-between mb-3">
+                  <label className="block text-sm font-bold text-forest-900 uppercase tracking-wider">1. Select Material Grade</label>
+                  <button
+                    onClick={() => setIsScanning(true)}
+                    className="text-sm font-bold text-forest-700 hover:text-amber flex items-center gap-1 transition-colors"
+                    title="Scan QR/Barcode"
+                  >
+                    <Camera className="w-4 h-4" /> Scan Code
+                  </button>
+                </div>
                 <div className="flex flex-wrap gap-2">
                   {MATERIALS.map(m => (
                     <button
