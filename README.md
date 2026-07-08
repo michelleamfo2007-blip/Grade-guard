@@ -1,23 +1,22 @@
-# GradeGuard 🏗️
-
+# GradeGuard 
 **Build with Certainty. The right material for the right job.**
 
 GradeGuard is a responsive React web application built to help construction professionals in Ghana easily verify construction material grades and source certified materials. It addresses the critical issue of grade misuse on construction sites (e.g., using 32.5R cement in a heavy foundation instead of 42.5N) to prevent structural failures.
 
-## Features ✨
+## Features 
 - **Vendor Marketplace:** A searchable directory of GSA-licensed manufacturing factories, block yards, and steel mills across Ghana's 16 regions.
 - **Grade Compliance Scanner:** An interactive, side-by-side tool that tests your selected material grade against your intended structural use to instantly tell you if it's safe to proceed.
 - **Grade Reference Table:** A comprehensive standard guide based on Ghana Standards Authority specifications.
 - **Customer Feedback Engine:** Read and write reviews to build a transparent construction marketplace.
 
-## Technology Stack 🛠️
+## Technology Stack 
 - **Framework:** React 18
 - **Routing:** React Router DOM
 - **Styling:** Tailwind CSS (Custom Forest Green & Amber palette)
 - **Icons:** Lucide React
 - **Build Tool:** Vite
 
-## Getting Started 🚀
+## Getting Started 
 
 To run this project locally on your machine:
 
@@ -37,7 +36,7 @@ To run this project locally on your machine:
    npm run dev
    ```
 
-## Design System 🎨
+## Design System 
 - **Primary Dark:** Forest Green (`#1C2B1A`)
 - **Highlight:** Construction Amber (`#F4A200`)
 - **Success:** GSA Green (`#2A7A3B`)
