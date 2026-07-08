@@ -61,13 +61,7 @@ export default function VendorSearchSection({ isTeaser = false }: { isTeaser?: b
     setVisibleCount(24);
   };
 
-  const getCategoryEmoji = (cat: string) => {
-    if (cat.includes("cement")) return "🏭";
-    if (cat.includes("block")) return "🧱";
-    if (cat.includes("rebar") || cat.includes("steel")) return "🔩";
-    if (cat.includes("aggregate")) return "🪨";
-    return "🏪";
-  };
+
 
   const scrollToFeedback = (supplierName: string) => {
     // In a real app we would pre-fill via state management.
@@ -164,7 +158,6 @@ export default function VendorSearchSection({ isTeaser = false }: { isTeaser?: b
               <div className="p-5 flex-grow">
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{getCategoryEmoji(vendor.category)}</span>
                     <h3 className="font-bold text-lg text-forest-950 leading-tight">{vendor.name}</h3>
                   </div>
                 </div>

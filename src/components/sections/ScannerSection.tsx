@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Scan, AlertTriangle, CheckCircle } from "lucide-react";
+import { Scan, AlertTriangle, CheckCircle, Clock, Trash2 } from "lucide-react";
+import { useScanHistory } from "../../hooks/useScanHistory";
 
 type MaterialId = "cem32" | "cem42" | "cem52" | "y10" | "y16" | "blk6" | "blk9";
 type UseId = "foundation" | "column" | "slab" | "loadwall" | "partition" | "plaster" | "mortar";
@@ -85,6 +86,7 @@ export default function ScannerSection() {
   const [selectedUse, setSelectedUse] = useState<UseId | "">("");
   const [result, setResult] = useState<ReturnType<typeof evaluateCompliance> | null>(null);
   const [showToast, setShowToast] = useState("");
+  const { history, addLog, clearHistory } = useScanHistory();
 
   const handleCheck = () => {
     if (!selectedMaterial) {
@@ -95,7 +97,18 @@ export default function ScannerSection() {
       triggerToast("Please select intended use");
       return;
     }
-    setResult(evaluateCompliance(selectedMaterial as MaterialId, selectedUse as UseId));
+    const res = evaluateCompliance(selectedMaterial as MaterialId, selectedUse as UseId);
+    setResult(res);
+
+    const matObj = MATERIALS.find(m => m.id === selectedMaterial);
+    const useObj = USES.find(u => u.id === selectedUse);
+
+    addLog({
+      materialLabel: matObj?.label || selectedMaterial,
+      useLabel: useObj?.label || selectedUse,
+      pass: res.pass,
+      message: res.msg
+    });
   };
 
   const triggerToast = (msg: string) => {
@@ -178,8 +191,8 @@ export default function ScannerSection() {
             </div>
           </div>
 
-          {/* RIGHT: Controls */}
-          <div className="order-1 lg:order-2">
+          {/* RIGHT: Controls & History */}
+          <div className="order-1 lg:order-2 flex flex-col gap-6">
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-xl">
               <h3 className="font-display text-2xl text-forest-950 mb-6">Try a compliance check</h3>
               
@@ -224,6 +237,34 @@ export default function ScannerSection() {
                 Check Compliance &rarr;
               </button>
             </div>
+
+            {/* History Section */}
+            {history.length > 0 && (
+              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-xl mt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-display text-xl text-forest-950 flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-amber" /> Recent Scans
+                  </h3>
+                  <button onClick={clearHistory} className="text-sm text-forest-700 hover:text-gsa-red flex items-center gap-1 transition-colors">
+                    <Trash2 className="w-4 h-4" /> Clear
+                  </button>
+                </div>
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                  {history.map(log => (
+                    <div key={log.id} className="p-3 border border-forest-100 rounded-lg flex items-start gap-3">
+                      <div className="mt-0.5 shrink-0">
+                        {log.pass ? <CheckCircle className="w-4 h-4 text-gsa-green" /> : <AlertTriangle className="w-4 h-4 text-gsa-red" />}
+                      </div>
+                      <div>
+                        <div className="text-sm font-bold text-forest-950 leading-tight">{log.materialLabel}</div>
+                        <div className="text-xs text-forest-700 mt-0.5">For: {log.useLabel}</div>
+                        <div className="text-[10px] text-forest-500 mt-1 uppercase tracking-wider">{new Date(log.timestamp).toLocaleString(undefined, {dateStyle: 'medium', timeStyle: 'short'})}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
         </div>
